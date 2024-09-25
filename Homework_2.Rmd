@@ -1,0 +1,59 @@
+---
+title: "Homework 2"
+author: "Mari Sanders"
+output: html_document
+---
+# Problem 1 
+
+## a) 
+
+This can be solved using a binomial distribution because there is a fixed number of trials and there are only two possible outcomes, either the individual had at least 1 dental checkup or not. 
+
+To solve this problem, we then know that X ~Binomial(56,0.73). 
+The formula of a binomial distribution is \(P(X= x) = {n \choose x}p^x(1-p)^{n-x} = \frac{n!}{x!(n-x)!}p^x(1-p)^{n-x}\)
+
+In this case, we have to do 
+\(P(X = 40)= {56 \choose 40}0.73^{40}(1-(0.73))^{56-40} = \frac{56!}{40!(56-40)!}(0.73)^{40}(1-0.73)^{56-40} = 0.1133\)
+
+## b) 
+
+\(P(X \geq 40) = 1-P(X \leq 39)\)
+
+```{r}
+at_most_39 <- pbinom(q = 39, size = 56, prob = 0.73)
+
+at_least_40 <- 1 - at_most_39
+```
+
+\(P(X \geq 40) = `r 1 - at_most_39`\)
+
+## c)
+
+It would not be good to approximate this with a Poisson distribution because n = 56, which is not greater than 100. Also the probability of success is 0.73, and it should be less than 0.01 for Poisson to be a good approximation. 
+
+However, a normal approximation would be valid for this situation because \(np = (0.73)(56)=40.88\geq 10\) and \(n(1-p) = 56(1-0.73) = 15.12 \geq 10\). Therefore, we can approximate this as a normal distribution. 
+
+We need to find the expected value and standard deviation of the normal distribution 
+
+\(E(X) = \mu = np = (0.73)(56) = `r 0.73 * 56`\)
+
+\(Var(x) = \sigma = \sqrt{np(1-p)} = \sqrt{(0.73)(56)(1-0.73)} = `r sqrt(0.73)*(56)*(1-0.73)`\) 
+
+
+
+
+## d)
+
+## e)
+
+
+# Problem 2 
+
+## a) 
+
+
+
+```{r}
+
+```
+
