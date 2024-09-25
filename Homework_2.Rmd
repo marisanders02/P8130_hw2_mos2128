@@ -15,6 +15,11 @@ The formula of a binomial distribution is \(P(X= x) = {n \choose x}p^x(1-p)^{n-x
 In this case, we have to do 
 \(P(X = 40)= {56 \choose 40}0.73^{40}(1-(0.73))^{56-40} = \frac{56!}{40!(56-40)!}(0.73)^{40}(1-0.73)^{56-40} = 0.1133\)
 
+```{r}
+
+```
+
+
 ## b) 
 
 \(P(X \geq 40) = 1-P(X \leq 39)\)
@@ -39,21 +44,48 @@ We need to find the expected value and standard deviation of the normal distribu
 
 \(Var(x) = \sigma = \sqrt{np(1-p)} = \sqrt{(0.73)(56)(1-0.73)} = `r sqrt(0.73)*(56)*(1-0.73)`\) 
 
+```{r}
+mu <- (0.73)*(56) 
+sd <- sqrt(0.73)*(56)*(1-0.73)
+pnorm(40, mean = mu, sd = sd)
+```
 
+```{r}
+1 - pnorm(40, mean = mu, sd = sd)
 
+```
 
 ## d)
 
+\(E(X) = \mu = np = (0.73)(56) = `r 0.73 * 56`\)
+
+I expect about 41 individuals to have at least one dental checkup. 
+
 ## e)
 
+\(Var(x) = \sigma = \sqrt{np(1-p)} = \sqrt{(0.73)(56)(1-0.73)} = `r sqrt(0.73)*(56)*(1-0.73)`\) 
+
+The standard deviation of the number of individuals who will have at least one dental checkup is about 14. 
 
 # Problem 2 
 
 ## a) 
 
-
-
 ```{r}
 
 ```
+
+# Problem 3 
+
+## a) 
+
+## b) 
+
+## c) 
+
+# Problem 4
+
+## a) 
+
+
 
