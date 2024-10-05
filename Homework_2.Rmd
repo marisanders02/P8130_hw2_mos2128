@@ -1,7 +1,7 @@
 ---
 title: "Homework 2"
 author: "Mari Sanders"
-output: html_document
+output: github_document
 ---
 # Problem 1 
 
@@ -71,21 +71,109 @@ The standard deviation of the number of individuals who will have at least one d
 
 ## a) 
 
-```{r}
+Poisson Distribution: $P(X = x) = \frac{\lambda^xe^{-\lambda}}{x!}$
 
+Then $P(X < 3) = P(X = 0) + P(X = 1) + P(X = 2)$
+
+$P(X = 0) = \frac{6^0e^{-6}}{0!} = .0025$
+
+$P(X = 1) = \frac{6^1e^{-6}}{1!} = 0.0145$
+
+$P(X = 2) = \frac{6^2e^{-6}}{2!} = 0.045$
+
+$P(X < 3) = 0.0025 + 0.0145 + 0.045 = 0.062$
+
+Want to find $P(X < 3)$
+```{r}
+fewer_than_3_tornadoes <- ppois(2, lambda = 6)
 ```
+
+The probability of seeing less than 3 tornadoes is `r fewer_than_3_tornadoes`
+
+## b) 
+Want to find $P(X = 3)$
+```{r}
+exactly_3_tornadoes <- dpois(3, lambda = 6)
+```
+
+The probability of having exactly 3 tornadoes is `r exactly_3_tornadoes`
+
+## c) 
+Want to find $P(X \geq 3)$
+```{r}
+three_or_less_tornades <- ppois(3, lambda = 6)
+more_than_3_tornadoes <- 1 - fewer_than_3_tornadoes
+```
+
+The probability of having more than three tornadoes is `r more_than_3_tornadoes`
 
 # Problem 3 
 
 ## a) 
+$H_0: \mu = 137$
+$H_A: \mu > 137$
+```{r}
+pop_mean <- 128
+pop_sd <- 10.2
+probability_greater_137 <-  1 - pnorm(137, mean = pop_mean, sd = pop_sd)
+
+```
+
+The probability that a randomly selected American male between 20 and 29 has a systolic blood pressure above 137.0 is `r probability_greater_137`
+
+
 
 ## b) 
 
+```{r}
+n <- 50
+```
+
+
 ## c) 
+
+```{r}
+
+```
+
 
 # Problem 4
 
 ## a) 
 
+```{r}
+sample_mean <- 80 
+sample_sd <- 10
+n <- 40 
 
+SE <- sample_sd / sqrt(n)
+
+critical_val <- qt(1-(0.05/2),df = 39)
+
+margin_of_error <- critical_val*SE
+
+lower_bound <- sample_mean - margin_of_error
+upper_bound <- sample_mean + margin_of_error
+
+```
+
+
+
+## b) 
+We are 95% confident that the mean pulse of young women suffering from fibromyalgia falls between (`r lower_bound`, `r upper_bound`)
+
+## c) 
+$H_0: \mu = 70$
+$H_A: \mu \neq 70$
+
+```{r}
+critical_val_2 <- qt(1-(0.01/2), df = 39)
+
+t_statistic <- (sample_mean - 70)/ sample_sd
+
+p_value <- 2 * (1 - pt(abs(t_statistic), df = 39))
+abs(t_statistic) > critical_val
+```
+
+Fail to reject the null hypothesis. 
 
