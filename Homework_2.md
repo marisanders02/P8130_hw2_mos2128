@@ -139,9 +139,25 @@ has a systolic blood pressure above 137.0 is 0.188793
 
 ``` r
 n <- 50
+z_score <- (125 - 128)/(10.2/sqrt(50))
+prob_less_125 <- pnorm(z_score)
 ```
 
+The probability that the sample mean for blood pressure of 50 males
+between 20 and 29 years old will be less than 125 is 0.0187753.
+
 ## c)
+
+``` r
+z_90 <- qnorm(0.90)
+n <- 40
+
+percentile_90 <- 
+  pop_mean + z_90 * (pop_sd/sqrt(n))
+```
+
+The 90th percentile of the sampling distribution of the sample mean X
+for a sample size of 40 is 130.0668372
 
 # Problem 4
 
@@ -159,8 +175,17 @@ critical_val <- qt(1-(0.05/2),df = 39)
 margin_of_error <- critical_val*SE
 
 lower_bound <- sample_mean - margin_of_error
-upper_bound <- sample_mean + margin_of_error
+lower_bound
 ```
+
+    ## [1] 76.80184
+
+``` r
+upper_bound <- sample_mean + margin_of_error
+upper_bound
+```
+
+    ## [1] 83.19816
 
 ## b)
 
@@ -182,4 +207,5 @@ abs(t_statistic) > critical_val
 
     ## [1] FALSE
 
-Fail to reject the null hypothesis.
+Fail to reject the null hypothesis that $\mu=70$. This means that the
+mean pulse of young women suffering from fibromyalgia is equal to 70.
