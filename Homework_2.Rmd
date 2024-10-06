@@ -15,10 +15,6 @@ The formula of a binomial distribution is \(P(X= x) = {n \choose x}p^x(1-p)^{n-x
 In this case, we have to do 
 \(P(X = 40)= {56 \choose 40}0.73^{40}(1-(0.73))^{56-40} = \frac{56!}{40!(56-40)!}(0.73)^{40}(1-0.73)^{56-40} = 0.1133\)
 
-```{r}
-
-```
-
 
 ## b) 
 
@@ -52,7 +48,6 @@ pnorm(40, mean = mu, sd = sd)
 
 ```{r}
 1 - pnorm(40, mean = mu, sd = sd)
-
 ```
 
 ## d)
