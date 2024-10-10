@@ -10,21 +10,21 @@ This can be solved using a binomial distribution because there is a
 fixed number of trials and there are only two possible outcomes, either
 the individual had at least 1 dental checkup or not.
 
-To solve this problem, we then know that X ~Binomial(56,0.73). The
+To solve this problem, we then know that X ~ Binomial(56,0.73). The
 formula of a binomial distribution is
 $P(X= x) = {n \choose x}p^x(1-p)^{n-x} = \frac{n!}{x!(n-x)!}p^x(1-p)^{n-x}$
 
 In this case, we have to do
 $P(X = 40)= {56 \choose 40}0.73^{40}(1-(0.73))^{56-40} = \frac{56!}{40!(56-40)!}(0.73)^{40}(1-0.73)^{56-40} = 0.1133$
 
+``` r
+exactly_40 <- dbinom(40,size = 56, prob = 0.73)
+```
+
 ## b)
 
-$P(X \geq 40) = 1-P(X \leq 39)$
-
 ``` r
-at_most_39 <- pbinom(q = 39, size = 56, prob = 0.73)
-
-at_least_40 <- 1 - at_most_39
+at_least_40 <- pbinom(q = 39, size = 56, prob = 0.73, lower.tail = FALSE)
 ```
 
 $P(X \geq 40) = 0.6678734$
@@ -49,18 +49,23 @@ $E(X) = \mu = np = (0.73)(56) = 40.88$
 $Var(x) = \sigma = \sqrt{np(1-p)} = \sqrt{(0.73)(56)(1-0.73)} = 12.9185337$
 
 ``` r
-mu <- (0.73)*(56) 
-sd <- sqrt(0.73)*(56)*(1-0.73)
-pnorm(40, mean = mu, sd = sd)
-```
+mu <- 0.73 * 56 
+sd <- sqrt(.73 * 56 * .27)
 
-    ## [1] 0.4728454
+exactly_40_normal <- dnorm(40, mean = mu, sd =  sd)
+```
 
 ``` r
-1 - pnorm(40, mean = mu, sd = sd)
+at_least_40_normal <- pnorm(40, mean = mu, sd = sd, lower.tail = FALSE)
 ```
 
-    ## [1] 0.5271546
+The difference between the normal distribution and the binomial
+distribution probability for $P(X = 40)$ = 0.0026128. The difference
+between the normal distribution and the binomial distribution for
+$P(X \geq 40)$ = 0.0634252. .
+
+The normal approximation for exact probabilities are closer than those
+for $P(X \geq x)$ but still is a good approximation.
 
 ## d)
 
@@ -114,17 +119,18 @@ The probability of having exactly 3 tornadoes is 0.0892351
 Want to find $P(X \geq 3)$
 
 ``` r
-three_or_less_tornades <- ppois(3, lambda = 6)
-more_than_3_tornadoes <- 1 - fewer_than_3_tornadoes
+more_than_3_tornadoes <- ppois(3, lambda = 6, lower.tail = FALSE)
 ```
 
-The probability of having more than three tornadoes is 0.9380312
+The probability of having more than three tornadoes is 0.8487961
 
 # Problem 3
 
 ## a)
 
-$H_0: \mu = 137$ $H_A: \mu > 137$
+$H_0: \mu = 137$
+
+$H_A: \mu > 137$
 
 ``` r
 pop_mean <- 128
@@ -139,8 +145,8 @@ has a systolic blood pressure above 137.0 is 0.188793
 
 ``` r
 n <- 50
-z_score <- (125 - 128)/(10.2/sqrt(50))
-prob_less_125 <- pnorm(z_score)
+sample_se <- (10.2/sqrt(50))
+prob_less_125 <- pnorm(125, mean = pop_mean, sd = sample_se)
 ```
 
 The probability that the sample mean for blood pressure of 50 males
@@ -150,10 +156,13 @@ between 20 and 29 years old will be less than 125 is 0.0187753.
 
 ``` r
 z_90 <- qnorm(0.90)
+
 n <- 40
 
+se <- pop_sd/sqrt(40)
+
 percentile_90 <- 
-  pop_mean + z_90 * (pop_sd/sqrt(n))
+  pop_mean + z_90 * se
 ```
 
 The 90th percentile of the sampling distribution of the sample mean X
@@ -170,7 +179,7 @@ n <- 40
 
 SE <- sample_sd / sqrt(n)
 
-critical_val <- qt(1-(0.05/2),df = 39)
+critical_val <- qt(1 - (0.05/2),df = 39)
 
 margin_of_error <- critical_val*SE
 
@@ -190,22 +199,23 @@ upper_bound
 ## b)
 
 We are 95% confident that the mean pulse of young women suffering from
-fibromyalgia falls between (76.8018448, 83.1981552)
+Fibromyalgia falls between (76.8018448, 83.1981552)
 
 ## c)
 
 $H_0: \mu = 70$ $H_A: \mu \neq 70$
 
 ``` r
-critical_val_2 <- qt(1-(0.01/2), df = 39)
+mu <- 80
+standard_error <- 10
+se <- (standard_error/sqrt(40))
+critical_val_2 <- qt(1 - (0.01/2), df = 39)
 
-t_statistic <- (sample_mean - 70)/ sample_sd
+t_value <- (80 - 70) / se
 
-p_value <- 2 * (1 - pt(abs(t_statistic), df = 39))
-abs(t_statistic) > critical_val
+p_value <- 2 * pt(t_value, 39, lower.tail = FALSE)
 ```
 
-    ## [1] FALSE
-
-Fail to reject the null hypothesis that $\mu=70$. This means that the
-mean pulse of young women suffering from fibromyalgia is equal to 70.
+Reject the null hypothesis that $\mu=70$ because the p-value is small.
+This means that the mean pulse of young women suffering from
+Fibromyalgia is not equal to 70.
